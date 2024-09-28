@@ -1,0 +1,63 @@
+<!-- details.html -->
+{% extends "base.html" %}
+
+{% block title %}{{ item.title or item.name }} - Movie App{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-4">
+            {% if item.poster_path %}
+                <img src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}" class="img-fluid" alt="{{ item.title or item.name }}">
+            {% else %}
+                <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 300px;">
+                    No Image
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <h1 class="mb-3">{{ item.title or item.name }}</h1>
+            <p><strong>Release Date:</strong> {{ item.release_date or item.first_air_date }}</p>
+            <p><strong>Rating:</strong> {{ item.vote_average }}/10 ({{ item.vote_count }} votes)</p>
+            <p><strong>Overview:</strong> {{ item.overview if item.overview else 'none'}}</p>
+            {% if current_user.is_authenticated %}
+                <form id="recommendationForm" class="mb-3">
+                    <div class="mb-3">
+                        <label for="rating" class="form-label">Your Rating:</label>
+                        <input type="number" class="form-control" id="rating" name="rating" min="0" max="10" step="0.1" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add to Recommendations</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if current_user.is_authenticated %}
+        <script>
+            document.getElementById('recommendationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                fetch('{{ url_for("api.add_recommendation") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        item_id: {{ item.id }},
+                        item_type: '{{ media_type }}',
+                        title: '{{ item.title or item.name }}',
+                        overview: '{{ item.overview if item.overview else 'none' }}',
+                        poster_path: 'https://image.tmdb.org/t/p/w500{{ item.poster_path }}',
+                        rating: document.getElementById('rating').value
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('An error occurred while adding the recommendation.');
+                });
+            });
+        </script>
+    {% endif %}
+{% endblock %}

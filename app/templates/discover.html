@@ -1,0 +1,40 @@
+<!-- discover.html -->
+{% extends "base.html" %}
+
+{% block title %}Discover {{ media_type.capitalize() }} - Movie App{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Discover {{ media_type.capitalize() }}</h1>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        {% for item in results %}
+            <div class="col">
+                <div class="card h-100">
+                    {% if item.poster_path %}
+                        <img src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}" class="card-img-top" alt="{{ item.title or item.name }}">
+                    {% else %}
+                        <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 300px;">
+                            No Image
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.title or item.name }}</h5>
+                        <p class="card-text">{{ item.overview[:100] }}...</p>
+                        <a href="{{ url_for('routes.details', media_type=media_type, item_id=item.id) }}" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <nav aria-label="Discover pages" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('routes.discover', media_type=media_type, page=page-1) }}">Previous</a>
+                </li>
+            {% endif %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('routes.discover', media_type=media_type, page=page+1) }}">Next</a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}
