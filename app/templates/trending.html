@@ -19,7 +19,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ item.title or item.name }}</h5>
                         <p class="card-text">{{ item.overview[:100] }}...</p>
-                        <a href="{{ url_for('routes.details', media_type=media_type, item_id=item.id) }}" class="btn btn-primary">View Details</a>
+                        <a href="{{ url_for('main.details', media_type=media_type, item_id=item.id) }}" class="btn btn-primary">View Details</a>
                     </div>
                 </div>
             </div>
@@ -29,11 +29,11 @@
         <ul class="pagination justify-content-center">
             {% if page > 1 %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('routes.trending', media_type=media_type, page=page-1) }}">Previous</a>
+                    <a class="page-link" href="{{ url_for('main.trending', media_type=media_type, page=page-1) }}">Previous</a>
                 </li>
             {% endif %}
             <li class="page-item">
-                <a class="page-link" href="{{ url_for('routes.trending', media_type=media_type, page=page+1) }}">Next</a>
+                <a class="page-link" href="{{ url_for('main.trending', media_type=media_type, page=page+1) }}">Next</a>
             </li>
         </ul>
     </nav>
