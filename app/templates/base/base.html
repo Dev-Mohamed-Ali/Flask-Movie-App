@@ -47,8 +47,14 @@
             <li>
                 <a class="dropdown-item" href="{{ url_for('main.trending', media_type='tv') }}">Trending TV Series</a>
             </li>
+
         </ul>
     </li>
+                {% if current_user.is_authenticated %}
+            <li>
+                <a class="nav-link" href="{{ url_for('main.show_user_recommendations') }}">My recommendations</a>
+            </li>
+                    {% endif %}
 </ul>
 <div>
                     <form class="d-flex" action="{{ url_for('main.search') }}" method="get">

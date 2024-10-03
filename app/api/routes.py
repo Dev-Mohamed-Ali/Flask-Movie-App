@@ -24,15 +24,26 @@ def add_recommendation():
 
     return jsonify({"message": "Recommendation added successfully"}), 201
 
-@bp.route('/recommendations', methods=['GET'])
+# Reusable function to fetch recommendations for a user
+def fetch_recommendations(user_id):
+    recommendations = Recommendation.query.filter_by(user_id=user_id).all()
+    if recommendations:
+        return [{
+            "item_id": r.item_id,
+            "item_type": r.item_type,
+            "title": r.title,
+            "overview": r.overview,
+            "poster_path": r.poster_path,
+            "rating": r.rating
+        } for r in recommendations]
+    else:
+        return None
+
+@bp.route('/recommendations/<int:user_id>', methods=['GET'])
 @login_required
-def get_recommendations():
-    recommendations = Recommendation.query.filter_by(user_id=current_user.id).all()
-    return jsonify([{
-        "item_id": r.item_id,
-        "item_type": r.item_type,
-        "title": r.title,
-        "overview": r.overview,
-        "poster_path": r.poster_path,
-        "rating": r.rating
-    } for r in recommendations])
+def get_recommendations(user_id):
+    recommendations = fetch_recommendations(user_id)
+    if recommendations:
+        return jsonify(recommendations), 200
+    else:
+        return jsonify({"message": "No recommendations"}), 200

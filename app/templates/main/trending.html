@@ -1,10 +1,10 @@
 <!-- discover.html -->
-{% extends "base.html" %}
+{% extends "base/base.html" %}
 
-{% block title %}Discover {{ media_type.capitalize() }} - Movie App{% endblock %}
+{% block title %}Trending {{ media_type.capitalize() }} - Movie App{% endblock %}
 
 {% block content %}
-    <h1 class="mb-4">Discover {{ media_type.capitalize() }}</h1>
+    <h1 class="mb-4">Trending {{ media_type.capitalize() }}</h1>
     <div class="row row-cols-1 row-cols-md-4 g-4">
         {% for item in results %}
             <div class="col">
@@ -29,11 +29,11 @@
         <ul class="pagination justify-content-center">
             {% if page > 1 %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('main.discover', media_type=media_type, page=page-1) }}">Previous</a>
+                    <a class="page-link" href="{{ url_for('main.trending', media_type=media_type, page=page-1) }}">Previous</a>
                 </li>
             {% endif %}
             <li class="page-item">
-                <a class="page-link" href="{{ url_for('main.discover', media_type=media_type, page=page+1) }}">Next</a>
+                <a class="page-link" href="{{ url_for('main.trending', media_type=media_type, page=page+1) }}">Next</a>
             </li>
         </ul>
     </nav>

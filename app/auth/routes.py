@@ -55,9 +55,10 @@ def login():
 
         # Check if user exists
         user = User.query.filter_by(username=username).first()
+        print("user", user)
 
         if user and user.check_password(password):
-            login_user(user)
+            login_user(user, remember=True)
             # Get the 'next' argument or redirect to the default page after login
             next_page = request.args.get('next') or url_for('main.index')
 

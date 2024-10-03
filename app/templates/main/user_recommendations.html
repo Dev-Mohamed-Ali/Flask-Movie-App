@@ -1,0 +1,30 @@
+<!-- index.html -->
+{% extends "base/base.html" %}
+
+{% block title %}My recommendations{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">My Recommendations</h1>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        {% for item in user_recommendations %}
+            <div class="col">
+                <div class="card h-100">
+                    {% if item.poster_path %}
+                        <img src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}" class="card-img-top" alt="{{ item.title }}">
+                    {% else %}
+                        <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 300px;">
+                            No Image
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.title or 'Untitled' }}</h5>
+                        <p class="card-text">
+                            {{ item.overview[:100] if item.overview else 'No overview available.' }}...
+                        </p>
+                        <a href="{{ url_for('main.details', media_type=item.item_type, item_id=item.item_id) }}" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
