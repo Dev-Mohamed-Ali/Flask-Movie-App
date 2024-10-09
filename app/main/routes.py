@@ -8,8 +8,15 @@ import app.api.routes as api
 @bp.route('/')
 def index():
     tmdb_client = TMDBClient(current_app.config['TMDB_API_KEY'])
-    trending_feed = tmdb_client.trending()
-    return render_template('main/index.html', trending=trending_feed['results'])
+    upcoming_movies = tmdb_client.upcoming_movies()
+    top_rated_movies = tmdb_client.top_rated_movies()
+    top_rated_tv = tmdb_client.top_rated_tv()
+    print(top_rated_tv)
+    return render_template('main/index.html',
+                           top_rated_movies=top_rated_movies['results'],
+                           upcoming_movies=upcoming_movies['results'],
+                           top_rated_tv=top_rated_tv['results'])
+
 
 @bp.route('/search')
 def search():
@@ -20,25 +27,70 @@ def search():
     print(results)
     return render_template('main/search.html', results=results['results'], query=query, page=page)
 
+
 @bp.route('/discover/<media_type>')
 def discover(media_type):
     page = request.args.get('page', 1, type=int)
     tmdb_client = TMDBClient(current_app.config['TMDB_API_KEY'])
     results = tmdb_client.discover(media_type, page)
+    print(results)
     return render_template('main/discover.html', results=results['results'], media_type=media_type, page=page)
+
 
 @bp.route('/details/<media_type>/<int:item_id>')
 def details(media_type, item_id):
     tmdb_client = TMDBClient(current_app.config['TMDB_API_KEY'])
     item_details = tmdb_client.get_details(media_type, item_id)
-    return render_template('main/details.html', item=item_details, media_type=media_type)
+    return render_template('main/item-details.html', item=item_details, media_type=media_type)
+
 
 @bp.route('/trending/<media_type>')
 def trending(media_type):
     page = request.args.get('page', 1, type=int)
     tmdb_client = TMDBClient(current_app.config['TMDB_API_KEY'])
-    results = tmdb_client.trending_with_type(media_type,page)
+    results = tmdb_client.trending_with_type(media_type, page)
     return render_template('main/trending.html', results=results['results'], media_type=media_type, page=page)
+
+
+@bp.route('/trending')
+def trending_all():
+    page = request.args.get('page', 1, type=int)
+    tmdb_client = TMDBClient(current_app.config['TMDB_API_KEY'])
+    results = tmdb_client.trending_all(language='en-US', page=page)
+    print(results)
+    return render_template('main/trending.html', results=results['results'], page=page)
+
+
+@bp.route('/animation/<media_type>')
+def trending_animations_by_type(media_type):
+    print(f"Requested media type: {media_type}")  # Log the media type
+    page = request.args.get('page', 1, type=int)
+    tmdb_client = TMDBClient(current_app.config['TMDB_API_KEY'])
+
+    # Validate media type
+    if media_type not in ['movie', 'tv']:
+        return "Invalid media type. Please specify 'movie' or 'tv'.", 400
+
+    # Fetch animated content based on media type
+    results = tmdb_client.discover_animated(media_type, page)
+
+    return render_template('main/animation.html',media_type=media_type, results=results['results'], page=page)
+
+
+@bp.route('/animation')
+def trending_animations():
+    page = request.args.get('page', 1, type=int)
+    tmdb_client = TMDBClient(current_app.config['TMDB_API_KEY'])
+
+    # Fetch animated movies
+    results_movies = tmdb_client.discover_animated('movie', page)
+    # Fetch animated TV shows
+    results_tv = tmdb_client.discover_animated('tv', page)
+
+    # Combine results from both movies and TV shows
+    combined_results = results_movies['results'] + results_tv['results']
+
+    return render_template('main/animation.html', results=combined_results, page=page)
 
 
 @bp.route('/recommendations')

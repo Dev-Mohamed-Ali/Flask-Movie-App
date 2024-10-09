@@ -4,25 +4,272 @@
 {% block title %}Home - Movie App{% endblock %}
 
 {% block content %}
-    <h1 class="mb-4">Trending</h1>
-    <div class="row row-cols-1 row-cols-md-4 g-4">
-        {% for item in trending %}
-            <div class="col">
-                <div class="card h-100">
-                    {% if item.poster_path %}
-                        <img src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}" class="card-img-top" alt="{{ item.title or item.name }}">
-                    {% else %}
-                        <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 300px;">
-                            No Image
-                        </div>
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ item.title or item.name }}</h5>
-                        <p class="card-text">{{ item.overview[:100] }}...</p>
-                        <a href="{{ url_for('main.details', media_type=item.media_type, item_id=item.id) }}" class="btn btn-primary">View Details</a>
-                    </div>
-                </div>
+      <main>
+    <article>
+
+      <!--
+        - #HERO
+      -->
+
+      <section class="hero">
+        <div class="container">
+
+          <div class="hero-content">
+
+            <p class="hero-subtitle">TopMovies</p>
+
+            <h1 class="h1 hero-title">
+              Unlimited <strong>Movie</strong>, TVs Shows, & More.
+            </h1>
+
+            <button class="btn btn-primary">
+              <ion-icon name="play"></ion-icon>
+
+              <span onclick="window.location.href='/register'">Join now</span>
+            </button>
+
+          </div>
+
+        </div>
+      </section>
+
+
+
+
+
+      <!--
+        - #UPCOMING
+      -->
+
+      <section class="global-container">
+        <div class="container">
+
+          <div class="flex-wrapper">
+
+            <div class="title-wrapper">
+              <p class="section-subtitle">Online Streaming</p>
+
+              <h2 class="h2 section-title">Upcoming Movies</h2>
             </div>
-        {% endfor %}
-    </div>
+
+            <ul class="filter-list">
+
+              <li>
+                <button class="filter-btn">Movies</button>
+              </li>
+
+              <li>
+                <button class="filter-btn">TV Shows</button>
+              </li>
+
+              <li>
+                <button class="filter-btn">Anime</button>
+              </li>
+
+            </ul>
+
+          </div>
+
+          <ul class="movies-list  has-scrollbar">
+            {% for item in upcoming_movies %}
+            <li>
+              <div class="movie-card">
+
+                <a href="{{ url_for('main.details', media_type='movie', item_id=item.id) }}">
+                  <figure class="card-banner">
+                    <img src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}" alt="The Northman movie poster">
+                  </figure>
+                </a>
+
+                <div class="title-wrapper">
+                  <a href="{{ url_for('main.details', media_type='movie', item_id=item.id) }}">
+                    <h3 class="card-title">{{ item.title}}</h3>
+                  </a>
+
+                  <time datetime="{{ item.release_date.split('-')[0] if item.release_date else ''  }}">{{ item.release_date.split('-')[0] if item.release_date else '' }}</time>
+                </div>
+
+                <div class="card-meta">
+                  <div class="badge badge-outline">HD</div>
+
+                  <div class="duration">
+                    <ion-icon name="time-outline"></ion-icon>
+
+                    <time datetime="PT137M">137 min</time>
+                  </div>
+
+                  <div class="rating">
+                    <ion-icon name="star"></ion-icon>
+
+                    <data>{{ item.vote_average }}</data>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+            {% endfor %}
+
+          </ul>
+
+        </div>
+      </section>
+
+
+
+
+
+
+      <!--
+        - #TOP RATED
+      -->
+
+      <section class="top-rated">
+        <div class="container">
+
+          <p class="section-subtitle">Online Streaming</p>
+
+          <h2 class="h2 section-title">Top Rated Movies</h2>
+
+          <ul class="filter-list">
+
+            <li>
+              <button class="filter-btn">Movies</button>
+            </li>
+
+            <li>
+              <button class="filter-btn">TV Shows</button>
+            </li>
+
+            <li>
+              <button class="filter-btn">Documentary</button>
+            </li>
+
+            <li>
+              <button class="filter-btn">Sports</button>
+            </li>
+
+          </ul>
+
+          <ul class="movies-list">
+
+            {% for item in top_rated_movies[:4] %}
+            <li>
+              <div class="movie-card">
+
+                <a href="{{ url_for('main.details', media_type='movie', item_id=item.id) }}">
+                  <figure class="card-banner">
+                    <img src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}" alt="The Northman movie poster">
+                  </figure>
+                </a>
+
+                <div class="title-wrapper">
+                  <a href="{{ url_for('main.details', media_type='movie', item_id=item.id) }}">
+                    <h3 class="card-title">{{ item.title}}</h3>
+                  </a>
+
+                  <time datetime="{{ item.release_date.split('-')[0] if item.release_date else ''  }}">{{ item.release_date.split('-')[0] if item.release_date else ''  }}</time>
+                </div>
+
+                <div class="card-meta">
+                  <div class="badge badge-outline">HD</div>
+
+                  <div class="duration">
+                    <ion-icon name="time-outline"></ion-icon>
+
+                    <time datetime="PT137M">137 min</time>
+                  </div>
+
+                  <div class="rating">
+                    <ion-icon name="star"></ion-icon>
+
+                    <data>{{ item.vote_average }}</data>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+            {% endfor %}
+
+
+
+
+
+          </ul>
+
+        </div>
+      </section>
+
+
+
+
+
+      <!--
+        - #TV SERIES
+      -->
+
+      <section class="tv-series">
+        <div class="container">
+
+          <p class="section-subtitle">Best TV Series</p>
+
+          <h2 class="h2 section-title">World Best TV Series</h2>
+
+          <ul class="movies-list">
+
+            {% for item in top_rated_tv[:4] %}
+            <li>
+              <div class="movie-card">
+
+                <a href="{{ url_for('main.details', media_type='movie', item_id=item.id) }}">
+                  <figure class="card-banner">
+                    <img src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}" alt="The Northman movie poster">
+                  </figure>
+                </a>
+
+                <div class="title-wrapper">
+                  <a href="{{ url_for('main.details', media_type='movie', item_id=item.id) }}">
+                    <h3 class="card-title">{{ item.title}}</h3>
+                  </a>
+
+                  <time datetime="{{ item.first_air_date.split('-')[0] if item.first_air_date else ''}}">{{ item.first_air_date.split('-')[0] if item.first_air_date else ''}}</time>
+                </div>
+
+                <div class="card-meta">
+                  <div class="badge badge-outline">HD</div>
+
+                  <div class="duration">
+                    <ion-icon name="time-outline"></ion-icon>
+
+                    <time datetime="PT137M">137 min</time>
+                  </div>
+
+                  <div class="rating">
+                    <ion-icon name="star"></ion-icon>
+
+                    <data>{{ item.vote_average }}</data>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+            {% endfor %}
+
+
+          </ul>
+
+        </div>
+      </section>
+
+
+
+
+
+      <!--
+        - #CTA
+      -->
+
+
+    </article>
+  </main>
+
 {% endblock %}

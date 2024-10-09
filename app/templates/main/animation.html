@@ -91,11 +91,11 @@
 <ul class="pagination">
             {% if page > 1 %}
                 <li class="page-item">
-                <a class="btn btn-primary" href="/trending?page={{ page-1 }}">Previous</a>
+                <a class="btn btn-primary" href="/animation/{{ media_type }}?page={{ page-1 }}">Previous</a>
                 </li>
             {% endif %}
             <li class="page-item">
-                <a class="btn btn-primary" href="/trending?page={{ page+1 }}">Next</a>
+                <a class="btn btn-primary" href="/animation/{{ media_type }}?page={{ page+1 }}">Next</a>
             </li>
         </ul>
 

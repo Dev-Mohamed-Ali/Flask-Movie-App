@@ -61,4 +61,3 @@ def setup_logging(app):
 
     # Optionally set the logging level for the app
     app.logger.setLevel('INFO')
-    app.logger.info('Flask app startup')

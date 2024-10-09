@@ -15,16 +15,45 @@ class TMDBClient:
         return response.json()
 
     def search(self, query, page=1):
-        return self._make_request("/search/multi", {"query": query, "page": page})
+        params = {"query": query, "page": page}
+        return self._make_request("/search/multi", params)
 
     def discover(self, media_type, page=1):
-        return self._make_request(f"/discover/{media_type}", {"page": page})
+        params = {"page": page}
+        return self._make_request(f"/discover/{media_type}", params)
 
-    def trending(self, time_window="week"):
-        return self._make_request(f"/trending/all/{time_window}")
+    def trending_with_type(self, media_type, page=1, time_window="week"):
+        params = {"page": page}
+        return self._make_request(f"/trending/{media_type}/{time_window}", params)
 
-    def trending_with_type(self,media_type,page, time_window="week"):
-        return self._make_request(f"/trending/{media_type}/{time_window}",{"page": page})
+    def trending_all(self, language="en-US", page=1, time_window="day"):
+        params = {"language": language, "page": page}
+        return self._make_request(f"/trending/all/{time_window}", params)
 
     def get_details(self, media_type, item_id):
         return self._make_request(f"/{media_type}/{item_id}")
+
+    def upcoming_movies(self, language="en-US"):
+        params = {"language": language}
+        return self._make_request("/movie/upcoming", params)
+
+    def top_rated_movies(self, language="en-US"):
+        params = {"language": language}
+        return self._make_request("/movie/top_rated", params)
+
+    def top_rated_tv(self, language="en-US"):
+        params = {"language": language}
+        return self._make_request("/tv/top_rated", params)
+
+    def discover_animated(self, media_type, page=1, language="en-US"):
+
+        # Set up the parameters for the request
+        params = {
+            "language": language,
+            "page": page,
+            "with_genres": 16,  # Genre ID for Animation
+            "without_keywords": "155477|41172|256466|195669|198385",  # Keywords to filter results
+        }
+
+        # Make the request to the appropriate endpoint
+        return self._make_request(f"/discover/{media_type}", params)
