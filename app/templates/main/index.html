@@ -223,7 +223,7 @@
 
                 <div class="title-wrapper">
                   <a href="{{ url_for('main.details', media_type='movie', item_id=item.id) }}">
-                    <h3 class="card-title">{{ item.title}}</h3>
+                    <h3 class="card-title">{{ item.title or item.name}}</h3>
                   </a>
 
                   <time datetime="{{ item.first_air_date.split('-')[0] if item.first_air_date else ''}}">{{ item.first_air_date.split('-')[0] if item.first_air_date else ''}}</time>

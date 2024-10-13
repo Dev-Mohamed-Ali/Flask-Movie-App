@@ -20,11 +20,11 @@
           </div>
 
           {% if total_results == 0 %}
-    <div class="no-results">
-        <h2>No Results Found</h2>
-        <p>We couldn't find any matches for "<strong>{{ query }}</strong>". Please try again with a different keyword.</p>
-        <a class="btn btn-primary" href="/">Go back to Home</a>
-    </div>
+            <div class="no-results">
+                <h2>No Results Found</h2>
+                <p>We couldn't find any matches for "<strong>{{ query }}</strong>". Please try again with a different keyword.</p>
+                <a class="btn btn-primary" href="/">Go back to Home</a>
+            </div>
               {% else %}
               <ul class="movies-list">
             {% for item in results %}

@@ -12,6 +12,7 @@ class TMDBClient:
             params = {}
         params['api_key'] = self.api_key
         response = requests.get(f"{self.BASE_URL}{endpoint}", params=params)
+        print(response.text)
         return response.json()
 
     def search(self, query, page=1):
@@ -80,3 +81,7 @@ class TMDBClient:
 
         # Make the request to the appropriate endpoint
         return self._make_request(f"/discover/{media_type}", params)
+
+    def get_similar(self, item_id, page=1, language="en-US"):
+        params = {"language": language, "page": page}
+        return self._make_request(f"/movie/{item_id}/similar", params)

@@ -45,6 +45,7 @@ def details(media_type, item_id):
     return render_template('main/item-details.html', item=item_details, media_type=media_type)
 
 
+
 @bp.route('/trending/<media_type>')
 def trending(media_type):
     page = request.args.get('page', 1, type=int)
