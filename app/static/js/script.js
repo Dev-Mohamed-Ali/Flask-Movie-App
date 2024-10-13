@@ -50,3 +50,19 @@ window.addEventListener("scroll", function () {
   window.scrollY >= 500 ? goTopBtn.classList.add("active") : goTopBtn.classList.remove("active");
 
 });
+
+function toggleSearch() {
+    const searchInput = document.getElementById('search-input');
+    searchInput.classList.toggle('active');
+}
+
+// Handle search form submission
+function submitSearch(event) {
+    event.preventDefault();  // Stop default form submission
+
+    const searchQuery = document.getElementById('search-input').value;
+    const page = 1;  // Default to page 1 on the first search
+
+    // Redirect to Flask /search route with query and page as GET parameters
+    window.location.href = `/search?query=${encodeURIComponent(searchQuery)}&page=${page}`;
+}

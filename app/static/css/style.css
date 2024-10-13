@@ -986,14 +986,14 @@ body.active { overflow: hidden; }
 
 .detail-subtitle {
   font-size: var(--fs-5);
-  color: var(--blue-dark);
+  color: var(--blue-light);
   font-weight: var(--fw-700);
   margin-bottom: 10px;
 }
 
 .detail-title { margin-bottom: 20px; }
 
-.detail-title strong { color: var(--blue-dark); }
+.detail-title strong { color: var(--blue-light); }
 
 .movie-detail .meta-wrapper { margin-bottom: 30px; }
 
@@ -1030,7 +1030,7 @@ body.active { overflow: hidden; }
   transition: var(--transition-1);
 }
 
-.details-actions .share:is(:hover, :focus) span { color: var(--blue-dark); }
+.details-actions .share:is(:hover, :focus) span { color: var(--blue-light); }
 
 .details-actions .title {
   color: var(--white);
@@ -1049,7 +1049,7 @@ body.active { overflow: hidden; }
   background: transparent;
 }
 
-.details-actions .btn-primary:is(:hover, :focus) { background: var(--blue-dark); }
+.details-actions .btn-primary:is(:hover, :focus) { background: var(--blue-light); }
 
 .download-btn {
   max-width: max-content;
@@ -1227,7 +1227,23 @@ body.active { overflow: hidden; }
     width: 2px;
     height: 14px;
   }
-
+/* Hidden search input, which will be shown on click */
+.search-input {
+    width: 0;
+    opacity: 0;
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #FFFFFF;
+    background-color: #1A1A1A;
+    color: #FFFFFF;
+    border-radius: 5px;
+    transition: width 0.4s ease, opacity 0.4s ease;
+}
+/* When the search input is active (clicked) */
+.search-input.active {
+    width: 200px;
+    opacity: 1;
+}
   .lang-wrapper {
     display: flex;
     align-items: center;
@@ -1865,4 +1881,31 @@ body.active { overflow: hidden; }
 
 .mt-n5 {
     margin-top: -3rem !important; /* -48px */
+}
+
+.no-results {
+    text-align: center;
+    padding: 50px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    margin: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.no-results h2 {
+    font-size: 2.5em;
+    color: #343a40;
+    margin-bottom: 20px;
+}
+
+.no-results p {
+    font-size: 1.2em;
+    color: #6c757d;
+}
+
+.no-results a.btn-primary {
+    margin-top: 20px;
+    font-size: 1.1em;
+    padding: 10px 20px;
+    text-decoration: none;
 }

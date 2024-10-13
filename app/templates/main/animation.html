@@ -6,15 +6,8 @@
 {% block content %}
       <main>
     <article>
-
-
-
-      <!--
-        - #UPCOMING
-      -->
-
-      <section class="global-container mt-6">
-        <div class="container">
+      <section class="global-container">
+        <div class="container mt-6">
 
           <div class="flex-wrapper">
 
@@ -47,7 +40,7 @@
             <li>
               <div class="movie-card">
 
-                <a href="{{ url_for('main.details', media_type='movie', item_id=item.id) }}">
+                <a href="{{ url_for('main.details', media_type=media_type, item_id=item.id) }}">
                   <figure class="card-banner">
                     <img src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}" alt="The Northman movie poster">
                   </figure>

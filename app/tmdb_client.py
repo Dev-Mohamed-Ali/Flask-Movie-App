@@ -15,8 +15,31 @@ class TMDBClient:
         return response.json()
 
     def search(self, query, page=1):
-        params = {"query": query, "page": page}
-        return self._make_request("/search/multi", params)
+        params = {
+            "query": query,
+            "page": page,
+        }
+
+        # Make the request
+        response = self._make_request("/search/multi", params)
+
+        person_count = 0
+        video_count = 0
+        filtered_results = []
+
+        for result in response['results']:
+            if result['media_type'] == 'person':
+                person_count += 1
+            elif result.get('video', False):
+                video_count += 1
+            else:
+                filtered_results.append(result)
+
+        # Update the 'total_results'
+        response['results'] = filtered_results
+        response['total_results'] -= (person_count + video_count)
+
+        return response
 
     def discover(self, media_type, page=1):
         params = {"page": page}

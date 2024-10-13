@@ -60,7 +60,7 @@
                 <div>
                   <ion-icon name="calendar-outline"></ion-icon>
 
-                  <time datetime="{{ item.release_date.split('-')[0] }}">{{ item.release_date.split('-')[0] }}</time>
+                  <time datetime="{{ item.release_date.split('-')[0] if release_date else ''}}">{{ item.release_date.split('-')[0] if release_date else '' }}</time>
                 </div>
 
                 <div>
@@ -104,11 +104,6 @@
 
             </div>
 
-            <a href="./assets/images/movie-4.png" download class="download-btn">
-              <span>Download</span>
-
-              <ion-icon name="download-outline"></ion-icon>
-            </a>
 
           </div>
 

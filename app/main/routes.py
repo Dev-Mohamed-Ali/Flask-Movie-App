@@ -24,8 +24,10 @@ def search():
     page = request.args.get('page', 1, type=int)
     tmdb_client = TMDBClient(current_app.config['TMDB_API_KEY'])
     results = tmdb_client.search(query, page)
+    total_pages = results['total_pages']
+    total_results = results['total_results']
     print(results)
-    return render_template('main/search.html', results=results['results'], query=query, page=page)
+    return render_template('main/search.html', results=results['results'], query=query, page=page,total_pages=total_pages, total_results=total_results)
 
 
 @bp.route('/discover/<media_type>')
@@ -33,7 +35,6 @@ def discover(media_type):
     page = request.args.get('page', 1, type=int)
     tmdb_client = TMDBClient(current_app.config['TMDB_API_KEY'])
     results = tmdb_client.discover(media_type, page)
-    print(results)
     return render_template('main/discover.html', results=results['results'], media_type=media_type, page=page)
 
 

@@ -41,10 +41,15 @@
       </a>
 
       <div class="header-actions">
+                    <form id="search-form" onsubmit="submitSearch(event)">
 
-        <button class="search-btn">
+                    <input type="text" id="search-input" class="search-input" placeholder="Search...">
+    </form>
+
+        <button class="search-btn" onclick="toggleSearch()">
           <ion-icon name="search-outline"></ion-icon>
         </button>
+
 
         <div class="lang-wrapper">
           <label for="language">
@@ -71,8 +76,8 @@
 
         <div class="navbar-top">
 
-          <a href="./index.html" class="logo">
-            <img src="./assets/images/logo.svg" alt="Filmlane logo">
+          <a href="/" class="logo">
+            <img src="{{url_for('static',filename='/img/logo.svg')}}" alt="Filmlane logo">
           </a>
 
           <button class="menu-close-btn" data-menu-close-btn>
@@ -163,7 +168,6 @@
   <!--
     - custom js link
   -->
-  <script src="{{ url_for('static',filename='/js/dark-mode.js') }}"></script>
   <script src="{{ url_for('static',filename='/js/script.js') }}"></script>
 
   <!--
