@@ -1,7 +1,7 @@
 <!-- index.html -->
 {% extends "base/base.html" %}
 
-{% block title %}Home - Movie App{% endblock %}
+{% block title %}{{ media_type if media_type else 'home' }} - animation{% endblock %}
 
 {% block content %}
       <main>
@@ -12,23 +12,19 @@
           <div class="flex-wrapper">
 
             <div class="title-wrapper">
-              <p class="section-subtitle">Today's Trending</p>
+              <p class="section-subtitle">Today's animation</p>
 
-              <h2 class="h2 section-title">Trending</h2>
+              <h2 class="h2 section-title">Animation</h2>
             </div>
 
             <ul class="filter-list">
 
               <li>
-                <button class="filter-btn">Movies</button>
+            <button class="filter-btn" onclick="Open_new_link('/animation/movie', false)">Movies</button>
               </li>
 
               <li>
-                <button class="filter-btn">TV Shows</button>
-              </li>
-
-              <li>
-                <button class="filter-btn">Anime</button>
+                <button class="filter-btn" onclick="Open_new_link('/animation/tv', false)">TV Shows</button>
               </li>
 
             </ul>

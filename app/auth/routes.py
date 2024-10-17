@@ -55,7 +55,6 @@ def login():
 
         # Check if user exists
         user = User.query.filter_by(username=username).first()
-        print("user", user)
 
         if user and user.check_password(password):
             login_user(user, remember=True)

@@ -31,18 +31,20 @@
             <li>
               <div class="movie-card">
 
-                <a href="{{ url_for('main.details', media_type=media_type, item_id=item.id) }}">
+                  <a href="/details/{{ item.media_type }}/{{ item.id }}">
                   <figure class="card-banner">
                     <img src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}" alt="The Northman movie poster">
                   </figure>
                 </a>
 
                 <div class="title-wrapper">
-                  <a href="{{ url_for('main.details', media_type='movie', item_id=item.id) }}">
+                  <a href="/details/{{ item.media_type }}/{{ item.id }}">
                     <h3 class="card-title">{{ item.title or item.name}}</h3>
                   </a>
 
-                  <time datetime="{{ item.release_date.split('-')[0] if item.release_date else ''  }}">{{ item.release_date.split('-')[0] if item.release_date else '' }}</time>
+<time datetime="{{ (item.release_date or item.first_air_date).split('-')[0] if item.release_date or item.first_air_date else '' }}">
+  {{ item.release_date.split('-')[0] if item.release_date else item.first_air_date.split('-')[0] if item.first_air_date else '' }}
+</time>
                 </div>
 
                 <div class="card-meta">
@@ -57,7 +59,7 @@
                   <div class="rating">
                     <ion-icon name="star"></ion-icon>
 
-                    <data>{{ item.vote_average | round(1) if vote_average else 0 }}</data>
+                    <data>{{ item.vote_average | round(1) if item.vote_average else 0 }}</data>
                   </div>
                 </div>
 

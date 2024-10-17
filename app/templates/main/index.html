@@ -58,7 +58,7 @@
               </li>
 
               <li>
-                <button class="filter-btn">Anime</button>
+                <button class="filter-btn" onclick="window.open('/animation')">Anime</button>
               </li>
 
             </ul>
@@ -88,9 +88,7 @@
                   <div class="badge badge-outline">HD</div>
 
                   <div class="duration">
-                    <ion-icon name="time-outline"></ion-icon>
 
-                    <time datetime="PT137M">137 min</time>
                   </div>
 
                   <div class="rating">
@@ -169,9 +167,6 @@
                   <div class="badge badge-outline">HD</div>
 
                   <div class="duration">
-                    <ion-icon name="time-outline"></ion-icon>
-
-                    <time datetime="PT137M">137 min</time>
                   </div>
 
                   <div class="rating">
@@ -211,18 +206,18 @@
 
           <ul class="movies-list">
 
-            {% for item in top_rated_tv[:4] %}
+            {% for item in top_rated_tv[3:7] %}
             <li>
               <div class="movie-card">
 
-                <a href="{{ url_for('main.details', media_type='movie', item_id=item.id) }}">
+                <a href="{{ url_for('main.details', media_type='tv', item_id=item.id) }}">
                   <figure class="card-banner">
                     <img src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}" alt="The Northman movie poster">
                   </figure>
                 </a>
 
                 <div class="title-wrapper">
-                  <a href="{{ url_for('main.details', media_type='movie', item_id=item.id) }}">
+                  <a href="{{ url_for('main.details', media_type='tv', item_id=item.id) }}">
                     <h3 class="card-title">{{ item.title or item.name}}</h3>
                   </a>
 
@@ -233,9 +228,7 @@
                   <div class="badge badge-outline">HD</div>
 
                   <div class="duration">
-                    <ion-icon name="time-outline"></ion-icon>
 
-                    <time datetime="PT137M">137 min</time>
                   </div>
 
                   <div class="rating">

@@ -66,3 +66,34 @@ function submitSearch(event) {
     // Redirect to Flask /search route with query and page as GET parameters
     window.location.href = `/search?query=${encodeURIComponent(searchQuery)}&page=${page}`;
 }
+
+function Open_new_link(url, new_tab) {
+    if (new_tab) {
+        window.open(url, "_blank");
+    } else {
+        window.location.href = url;
+    }
+}
+
+function setLanguage(language) {
+        // Create a new XMLHttpRequest object
+        var xhr = new XMLHttpRequest();
+
+        // Configure it: POST-request for the URL /set_language
+        xhr.open('POST', '/set_language', true);
+
+        // Set the request header for form data
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        // Send the request with the selected language
+        xhr.send('language=' + language);
+
+        // Optionally, update the "Current Language" text dynamically without reloading the page
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                window.location.reload();
+            }
+            else
+                (console.log(xhr.responseText));
+        };
+    }

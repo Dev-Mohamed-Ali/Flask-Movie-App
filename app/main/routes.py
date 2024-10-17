@@ -1,9 +1,19 @@
-from flask import render_template, request, current_app
+from flask import render_template, request, current_app, session, jsonify
 from flask_login import login_required, current_user
 from app.main import bp
 from app.tmdb_client import TMDBClient
 import app.api.routes as api
 
+
+@bp.route('/set_language', methods=['POST'])
+def set_language():
+    # Get the selected language from the AJAX request
+    selected_language = request.form['language']
+    # Save the selected language in the session
+    session['language'] = selected_language
+
+    # Return a success response (could also be a JSON response)
+    return jsonify(success=True)
 
 @bp.route('/')
 def index():
@@ -11,7 +21,6 @@ def index():
     upcoming_movies = tmdb_client.upcoming_movies()
     top_rated_movies = tmdb_client.top_rated_movies()
     top_rated_tv = tmdb_client.top_rated_tv()
-    print(top_rated_tv)
     return render_template('main/index.html',
                            top_rated_movies=top_rated_movies['results'],
                            upcoming_movies=upcoming_movies['results'],
@@ -26,7 +35,6 @@ def search():
     results = tmdb_client.search(query, page)
     total_pages = results['total_pages']
     total_results = results['total_results']
-    print(results)
     return render_template('main/search.html', results=results['results'], query=query, page=page,total_pages=total_pages, total_results=total_results)
 
 
@@ -58,14 +66,12 @@ def trending(media_type):
 def trending_all():
     page = request.args.get('page', 1, type=int)
     tmdb_client = TMDBClient(current_app.config['TMDB_API_KEY'])
-    results = tmdb_client.trending_all(language='en-US', page=page)
-    print(results)
+    results = tmdb_client.trending_all( page=page)
     return render_template('main/trending.html', results=results['results'], page=page)
 
 
 @bp.route('/animation/<media_type>')
 def trending_animations_by_type(media_type):
-    print(f"Requested media type: {media_type}")  # Log the media type
     page = request.args.get('page', 1, type=int)
     tmdb_client = TMDBClient(current_app.config['TMDB_API_KEY'])
 

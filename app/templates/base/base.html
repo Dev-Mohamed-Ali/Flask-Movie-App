@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Top Movies - Best movie collections</title>
+  <title>{% block title %}Top Movies - Best movie collections {% endblock %}</title>
 
   <!--
     - favicon
@@ -56,12 +56,17 @@
             <ion-icon name="globe-outline"></ion-icon>
           </label>
 
-          <select name="language" id="language">
-            <option value="en">EN</option>
-            <option value="au">AU</option>
-            <option value="ar">AR</option>
-            <option value="tu">TU</option>
-          </select>
+<select name="language" id="language" onchange="setLanguage(this.value)">
+    <option value="en-US" {% if session.get('language') == 'en-US' %} selected {% endif %}>English (US)</option>
+    <option value="fr-FR" {% if session.get('language') == 'fr-FR' %} selected {% endif %}>French (FR)</option>
+    <option value="es-ES" {% if session.get('language') == 'es-ES' %} selected {% endif %}>Spanish (ES)</option>
+    <option value="ar" {% if session.get('language') == 'ar' %} selected {% endif %}>Arabic (AR)</option>
+    <option value="de-DE" {% if session.get('language') == 'de-DE' %} selected {% endif %}>German (DE)</option>
+    <option value="tr-TR" {% if session.get('language') == 'tr-TR' %} selected {% endif %}>Turkish (TR)</option>
+    <option value="zh-CN" {% if session.get('language') == 'zh-CN' %} selected {% endif %}>Chinese (Simplified)</option>
+    <option value="ja-JP" {% if session.get('language') == 'ja-JP' %} selected {% endif %}>Japanese (JP)</option>
+</select>
+
         </div>
 
         <button class="btn btn-primary">Sign in</button>

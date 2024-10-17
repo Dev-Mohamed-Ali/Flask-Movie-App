@@ -1,7 +1,7 @@
 <!-- index.html -->
 {% extends "base/base.html" %}
 
-{% block title %}Home - Movie App{% endblock %}
+{% block title %}{{ media_type if media_type else 'home' }} - Discover{% endblock %}
 
 {% block content %}
       <main>
@@ -24,21 +24,7 @@
               <h2 class="h2 section-title">Discover</h2>
             </div>
 
-            <ul class="filter-list">
 
-              <li>
-                <button class="filter-btn">Movies</button>
-              </li>
-
-              <li>
-                <button class="filter-btn">TV Shows</button>
-              </li>
-
-              <li>
-                <button class="filter-btn">Anime</button>
-              </li>
-
-            </ul>
 
           </div>
 
