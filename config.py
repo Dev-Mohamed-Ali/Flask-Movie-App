@@ -12,3 +12,5 @@ class Config:
     MAIL_USERNAME = os.environ.get('EMAIL_USER')  # Your email username
     MAIL_PASSWORD = os.environ.get('EMAIL_PASS')  # Your email password
     MAIL_DEFAULT_SENDER = os.environ.get('EMAIL_USER')  # Default sender email
+    CACHE_TYPE = 'SimpleCache'   # Configuring cache with Redis as backend or SimpleCache for development
+    CACHE_DEFAULT_TIMEOUT = 300  # 5 minutes

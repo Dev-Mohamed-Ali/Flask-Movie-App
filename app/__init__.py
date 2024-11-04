@@ -4,19 +4,34 @@ import os
 from logging.handlers import RotatingFileHandler
 
 import sqlalchemy
-from flask import Flask,current_app
+from flask import Flask, current_app
+from flask_caching import Cache
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
+from app.tmdb_client import TMDBClient
 from config import Config
+
+
+def get_tmdb_client():
+    """Helper to get TMDB client with error handling for API key."""
+    api_key = current_app.config.get('TMDB_API_KEY')
+    if not api_key:
+        raise RuntimeError("TMDB API Key not configured")
+
+    # Create a new TMDBClient instance using the stored API key and language
+    return TMDBClient(api_key)
+
 
 # Initialize extensions
 db = SQLAlchemy()
 login_manager = LoginManager()
 migrate = Migrate()
-
+# Initialize Flask-Caching
+cache = Cache()
 Base = sqlalchemy.orm.declarative_base()
+
 
 def create_app():
     app = Flask(__name__)
@@ -29,6 +44,7 @@ def create_app():
     # Initialize app with extensions
     db.init_app(app)
     login_manager.init_app(app)
+    cache.init_app(app)
     migrate.init_app(app, db)
 
     # Register blueprints
@@ -42,6 +58,7 @@ def create_app():
     app.register_blueprint(api_bp, url_prefix='/api')
 
     return app
+
 
 def setup_logging(app):
     if not os.path.exists('logs'):

@@ -2,185 +2,344 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Top Movies - Best movie collections {% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Top Movies - Best movie collections {% endblock %}</title>
 
-  <!--
-    - favicon
-  -->
-  <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}" type="image/svg+xml">
+    <!--
+      - favicon
+    -->
+    <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}" type="image/svg+xml">
+    {% block styles %}
+    {% endblock %}
+    <!--
+      - custom css link
+    -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
 
-  <!--
-    - custom css link
-  -->
-  <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
-
-  <!--
-    - google font link
-  -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!--
+      - google font link
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body id="top">
 
-  <!--
-    - #HEADER
-  -->
+<!--
+  - #HEADER
+-->
 
-  <header class="header" data-header>
+<header class="header" data-header>
     <div class="container">
 
-      <div class="overlay" data-overlay></div>
+        <div class="overlay" data-overlay></div>
 
-      <a href="/" class="logo">
-        <img src="{{ url_for('static',filename='img/logo.svg') }}" alt="Filmlane logo">
-      </a>
+        <a href="/" class="logo">
+            <img src="{{ url_for('static',filename='img/logo.svg') }}" alt="Filmlane logo">
+        </a>
 
-      <div class="header-actions">
-                    <form id="search-form" onsubmit="submitSearch(event)">
+        <div class="header-actions">
+            <form id="search-form" onsubmit="submitSearch(event)">
 
-                    <input type="text" id="search-input" class="search-input" placeholder="Search...">
-    </form>
+                <input type="text" id="search-input" class="search-input" placeholder="Search...">
+            </form>
 
-        <button class="search-btn" onclick="toggleSearch()">
-          <ion-icon name="search-outline"></ion-icon>
+            <button class="search-btn" onclick="toggleSearch()">
+                <ion-icon name="search-outline"></ion-icon>
+            </button>
+
+
+            <div class="lang-wrapper">
+                <label for="language">
+                    <ion-icon name="globe-outline"></ion-icon>
+                </label>
+
+                <select name="language" id="language" onchange="setLanguage(this.value)">
+                    <option value="en-US" {% if session.get('language') == 'en-US' %} selected {% endif %}>English
+                        (US)
+                    </option>
+                    <option value="fr-FR" {% if session.get('language') == 'fr-FR' %} selected {% endif %}>French (FR)
+                    </option>
+                    <option value="es-ES" {% if session.get('language') == 'es-ES' %} selected {% endif %}>Spanish
+                        (ES)
+                    </option>
+                    <option value="ar" {% if session.get('language') == 'ar' %} selected {% endif %}>Arabic (AR)
+                    </option>
+                    <option value="de-DE" {% if session.get('language') == 'de-DE' %} selected {% endif %}>German (DE)
+                    </option>
+                    <option value="tr-TR" {% if session.get('language') == 'tr-TR' %} selected {% endif %}>Turkish
+                        (TR)
+                    </option>
+                    <option value="zh-CN" {% if session.get('language') == 'zh-CN' %} selected {% endif %}>Chinese
+                        (Simplified)
+                    </option>
+                    <option value="ja-JP" {% if session.get('language') == 'ja-JP' %} selected {% endif %}>Japanese
+                        (JP)
+                    </option>
+                </select>
+
+            </div>
+
+
+        </div>
+
+        <button class="menu-open-btn" data-menu-open-btn>
+            <ion-icon name="reorder-two"></ion-icon>
         </button>
 
+        <nav class="navbar" data-navbar>
 
-        <div class="lang-wrapper">
-          <label for="language">
-            <ion-icon name="globe-outline"></ion-icon>
-          </label>
+            <div class="navbar-top">
 
-<select name="language" id="language" onchange="setLanguage(this.value)">
-    <option value="en-US" {% if session.get('language') == 'en-US' %} selected {% endif %}>English (US)</option>
-    <option value="fr-FR" {% if session.get('language') == 'fr-FR' %} selected {% endif %}>French (FR)</option>
-    <option value="es-ES" {% if session.get('language') == 'es-ES' %} selected {% endif %}>Spanish (ES)</option>
-    <option value="ar" {% if session.get('language') == 'ar' %} selected {% endif %}>Arabic (AR)</option>
-    <option value="de-DE" {% if session.get('language') == 'de-DE' %} selected {% endif %}>German (DE)</option>
-    <option value="tr-TR" {% if session.get('language') == 'tr-TR' %} selected {% endif %}>Turkish (TR)</option>
-    <option value="zh-CN" {% if session.get('language') == 'zh-CN' %} selected {% endif %}>Chinese (Simplified)</option>
-    <option value="ja-JP" {% if session.get('language') == 'ja-JP' %} selected {% endif %}>Japanese (JP)</option>
-</select>
+                <a href="/" class="logo">
+                    <img src="{{ url_for('static',filename='img/logo.svg') }}" alt="Filmlane logo">
+                </a>
 
-        </div>
+                <button class="menu-close-btn" data-menu-close-btn>
+                    <ion-icon name="close-outline"></ion-icon>
+                </button>
 
-        <button class="btn btn-primary">Sign in</button>
+            </div>
 
-      </div>
+            <ul class="navbar-list">
 
-      <button class="menu-open-btn" data-menu-open-btn>
-        <ion-icon name="reorder-two"></ion-icon>
-      </button>
+                <li>
+                    <a href="/" class="navbar-link">Home</a>
+                </li>
 
-      <nav class="navbar" data-navbar>
+                <li>
+                    <a href="/discover/movie" class="navbar-link">Movie</a>
+                </li>
 
-        <div class="navbar-top">
+                <li>
+                    <a href="/discover/tv" class="navbar-link">Tv Show</a>
+                </li>
 
-          <a href="/" class="logo">
-            <img src="{{url_for('static',filename='img/logo.svg')}}" alt="Filmlane logo">
-          </a>
+                <li>
+                    <a href="/animation" class="navbar-link">animation</a>
+                </li>
 
-          <button class="menu-close-btn" data-menu-close-btn>
-            <ion-icon name="close-outline"></ion-icon>
-          </button>
+                <li>
+                    <a href="/trending" class="navbar-link">Trending</a>
+                </li>
+                <li class="nav-item dropdown">
+                    {% if current_user.is_authenticated %}
+                        <a class="navbar-link" href="/logout" role="button">Logout</a>
+                    {% else %}
+                        <a class="navbar-link" href="#" onclick="closeIfOpen()" role="button" id="loginDropdown">Login</a>
+                    {% endif %}
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="loginDropdown">
+                        <!-- Login Form -->
+                        <div id="loginForm">
+                            <h5 class="card-title text-center mb-4">Login</h5>
+                            <form id="loginForm" onsubmit="loginUser(event)">
+                                <div class="mb-3">
+                                    <label for="loginUsername" class="form-label">Username</label>
+                                    <input type="text" class="form-control" id="loginUsername"
+                                           placeholder="Enter Username">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="loginPassword" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="loginPassword"
+                                           placeholder="Password">
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input-c" id="rememberMe">
+                                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                                </div>
+                                <button type="submit" class="btn-c btn-primary-custom w-100">Login</button>
+                                <p class="small text-center mt-3">Don't have an account? <a href="#" class="switch-link"
+                                                                                            onclick="toggleForms()">Register</a>
+                                </p>
+                            </form>
+                        </div>
 
-        </div>
+                        <!-- Register Form -->
+                        <div id="registerForm" style="display: none;">
+                            <h5 class="card-title text-center mb-4">Register</h5>
+                            <form id="registerForm" onsubmit="registerUser(event)">
+                                <div class="mb-3">
+                                    <label for="registerName" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="registerName"
+                                           placeholder="Enter full name">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="registerEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="registerEmail"
+                                           placeholder="Enter email">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="registerPassword" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="registerPassword"
+                                           placeholder="Password">
+                                </div>
+                                <button type="submit" class="btn-c btn-primary-custom w-100">Register</button>
+                                <p class="small text-center mt-3">Already have an account? <a href="#"
+                                                                                              class="switch-link"
+                                                                                              onclick="toggleForms()">Login</a>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </li>
 
-        <ul class="navbar-list">
+            </ul>
 
-          <li>
-            <a href="/" class="navbar-link">Home</a>
-          </li>
+            <ul class="navbar-social-list">
 
-          <li>
-            <a href="/discover/movie" class="navbar-link">Movie</a>
-          </li>
+                <li>
+                    <a href="#" class="navbar-social-link">
+                        <ion-icon name="logo-twitter"></ion-icon>
+                    </a>
+                </li>
 
-          <li>
-            <a href="/discover/tv" class="navbar-link">Tv Show</a>
-          </li>
+                <li>
+                    <a href="#" class="navbar-social-link">
+                        <ion-icon name="logo-facebook"></ion-icon>
+                    </a>
+                </li>
 
-          <li>
-            <a href="/animation" class="navbar-link">animation</a>
-          </li>
+                <li>
+                    <a href="#" class="navbar-social-link">
+                        <ion-icon name="logo-pinterest"></ion-icon>
+                    </a>
+                </li>
 
-          <li>
-            <a href="/trending" class="navbar-link">Trending</a>
-          </li>
+                <li>
+                    <a href="#" class="navbar-social-link">
+                        <ion-icon name="logo-instagram"></ion-icon>
+                    </a>
+                </li>
 
-        </ul>
+                <li>
+                    <a href="#" class="navbar-social-link">
+                        <ion-icon name="logo-youtube"></ion-icon>
+                    </a>
+                </li>
 
-        <ul class="navbar-social-list">
+            </ul>
 
-          <li>
-            <a href="#" class="navbar-social-link">
-              <ion-icon name="logo-twitter"></ion-icon>
-            </a>
-          </li>
-
-          <li>
-            <a href="#" class="navbar-social-link">
-              <ion-icon name="logo-facebook"></ion-icon>
-            </a>
-          </li>
-
-          <li>
-            <a href="#" class="navbar-social-link">
-              <ion-icon name="logo-pinterest"></ion-icon>
-            </a>
-          </li>
-
-          <li>
-            <a href="#" class="navbar-social-link">
-              <ion-icon name="logo-instagram"></ion-icon>
-            </a>
-          </li>
-
-          <li>
-            <a href="#" class="navbar-social-link">
-              <ion-icon name="logo-youtube"></ion-icon>
-            </a>
-          </li>
-
-        </ul>
-
-      </nav>
+        </nav>
 
     </div>
-  </header>
+</header>
 
 {% block content %}
-	
+
 {% endblock %}
 
-  <!--
-    - #GO TO TOP
-  -->
+<!--
+  - #GO TO TOP
+-->
 
-  <a href="#top" class="go-top" data-go-top>
+<a href="#top" class="go-top" data-go-top>
     <ion-icon name="chevron-up"></ion-icon>
-  </a>
+</a>
 
 
+<!--
+  - custom js link
+-->
+<script src="{{ url_for('static',filename='js/script.js') }}"></script>
+<!-- Include SweetAlert library in the head section -->
+<script src="{{ url_for('static',filename='js/sweetalert2@11') }}"></script>
+<!-- Bootstrap JS & jQuery (for AJAX requests) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dropdownToggle = document.getElementById("loginDropdown");
+        const dropdownMenu = dropdownToggle.nextElementSibling; // Get the dropdown menu
 
+        // Toggle the dropdown when the toggle link is clicked
+        dropdownToggle.addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent default anchor behavior
+            dropdownMenu.classList.toggle("show"); // Toggle the dropdown menu visibility
+        });
 
-  <!--
-    - custom js link
-  -->
-  <script src="{{ url_for('static',filename='js/script.js') }}"></script>
+        // Close dropdown when clicking outside
+        document.addEventListener("click", function (event) {
+            if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.remove("show"); // Hide dropdown if click is outside
+            }
+        });
+    });
 
-  <!--
-    - ionicon link
-  -->
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    // Function to toggle between Login and Register forms
+    function toggleForms() {
+        document.getElementById('loginForm').style.display = document.getElementById('loginForm').style.display === 'none' ? 'block' : 'none';
+        document.getElementById('registerForm').style.display = document.getElementById('registerForm').style.display === 'none' ? 'block' : 'none';
+    }
+    let isDropdownOpen = false; // Track the dropdown state
+    function closeIfOpen() {
 
+                         dropdownMenu = document.querySelector(".dropdown-menu"); // For class
+                        if (dropdownMenu){
+                            // Toggle dropdown visibility
+                isDropdownOpen = !isDropdownOpen; // Toggle the state
+                if (isDropdownOpen) {
+                    dropdownMenu.classList.add('show'); // Add 'show' class to open
+                    dropdownMenu.style.display = 'block'; // Ensure it's displayed
+                } else {
+                    dropdownMenu.classList.remove('show'); // Remove 'show' class to close
+                    dropdownMenu.style.display = 'none'; // Hide the dropdown
+                }
+                        }
+    }
+
+    // AJAX for login form submission
+    function loginUser(event) {
+        event.preventDefault();
+        const username = $('#loginUsername').val();
+        const password = $('#loginPassword').val();
+
+        $.ajax({
+            type: "POST",
+            url: "/login",  // Replace with actual login endpoint
+            data: {username, password},
+            success: function (response) {
+                alert(response.message || "Login successful!");
+                // Additional actions on success, like redirecting
+                window.location.reload()
+            },
+            error: function () {
+                alert("Login failed. Please check your credentials.");
+            }
+        });
+    }
+
+    // AJAX for registration form submission
+    function registerUser(event) {
+        event.preventDefault();
+        const name = $('#registerName').val();
+        const email = $('#registerEmail').val();
+        const password = $('#registerPassword').val();
+
+        $.ajax({
+            type: "POST",
+            url: "/register",  // Replace with actual register endpoint
+            data: {name, email, password},
+            success: function (response) {
+                alert(response.message || "Registration successful!");
+                toggleForms();  // Switch to login form after successful registration
+            },
+            error: function () {
+                alert("Registration failed. Please try again.");
+            }
+        });
+    }
+</script>
+<!--
+  - ionicon link
+-->
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+{% block scripts %}
+
+{% endblock %}
 </body>
 
 </html>

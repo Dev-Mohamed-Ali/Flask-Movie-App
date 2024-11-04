@@ -7,283 +7,387 @@
 
 
 
-  <main>
-    <article>
+    <main>
+        <article>
 
-      <!-- 
-        - #MOVIE DETAIL
-      -->
+            <!--
+              - #MOVIE DETAIL
+            -->
 
-      <section class="movie-detail">
-        <div class="container">
+            <section class="movie-detail">
+                <div class="container">
 
-          <figure class="movie-detail-banner">
-            {% if item.poster_path %}
-                <img src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}" class="img-fluid" alt="{{ item.title or item.name }}">
+                    <figure class="movie-detail-banner">
+                        {% if item.poster_path %}
+                            <img src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}" class="img-fluid"
+                                 alt="{{ item.title or item.name }}">
+                        {% else %}
+                            <div class="bg-secondary text-white d-flex align-items-center justify-content-center"
+                                 style="height: 300px;">
+                                No Image
+                            </div>
+                        {% endif %}
+
+                        <button class="play-btn">
+                            <ion-icon name="play-circle-outline"></ion-icon>
+                        </button>
+
+                    </figure>
+
+                    <div class="movie-detail-content">
+
+
+                        <h1 class="h1 detail-title">
+                            <strong>{{ item.title or item.name }}</strong>
+                        </h1>
+
+                        <div class="meta-wrapper">
+
+                            <div class="badge-wrapper">
+
+                                <div class="badge badge-outline">HD</div>
+                            </div>
+
+                            <div class="ganre-wrapper">
+                                {% for genre in item.genres %}
+                                    <a href="#">{{ genre.name }}{% if not loop.last %},{% endif %}</a>
+                                {% endfor %}
+
+                            </div>
+
+                            <div class="date-time">
+
+                                <div>
+                                    <ion-icon name="calendar-outline"></ion-icon>
+
+                                    <time datetime="{{ (item.release_date or item.first_air_date).split('-')[0] if item.release_date or item.first_air_date else '' }}">
+                                        {{ (item.release_date or item.first_air_date).split('-')[0] if item.release_date or item.first_air_date else '' }}
+                                    </time>
+                                </div>
+
+                                <div>
+                                    <ion-icon name="time-outline"></ion-icon>
+                                    {% if media_type == 'tv' %}
+                                        <time datetime="PT115M">{{ item.seasons | count }} seasons</time>
+                                    {% else %}
+                                        <time datetime="PT115M">{{ item.runtime }} min</time>
+                                    {% endif %}
+                                </div>
+                                <div class="rating">
+                                    <ion-icon name="star" role="img" class="md hydrated" aria-label="star"></ion-icon>
+
+                                    <data>{{ item.vote_average | round(1) }}</data>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <p class="storyline">
+                            {{ item.overview or "No description available" }}
+                        </p>
+
+                        <div class="details-actions">
+                            <button class="share" id="rateBtn">
+                                <ion-icon name="bookmark-outline"></ion-icon>
+
+                                <span>Add to favourites</span>
+                            </button>
+
+
+                            <button class="btn btn-primary"
+                                    onclick="window.open('https://www.themoviedb.org/{{ media_type }}/{{ item.id }}-{{ item.original_title }}')">
+                                <ion-icon name="play"></ion-icon>
+
+                                <span>More Info</span>
+                            </button>
+
+                            <button class="share" id="shareBtn">
+                                <ion-icon name="share-social"></ion-icon>
+
+                                <span id="shareText">Share</span>
+                            </button>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </section>
+
+
+            <!--
+              - #TV SERIES
+            -->
+
+            <section class="tv-series">
+                <div class="container">
+
+                    <p class="section-subtitle">Best TV Series</p>
+
+                    <h2 class="h2 section-title">World Best TV Series</h2>
+
+                    <ul class="movies-list">
+
+
+                        <li>
+                            <div class="movie-card">
+
+                                <a href="/details/tv/1396">
+                                    <figure class="card-banner">
+                                        <img src="https://image.tmdb.org/t/p/w500/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg"
+                                             alt="The Northman movie poster">
+                                    </figure>
+                                </a>
+
+                                <div class="title-wrapper">
+                                    <a href="/details/tv/1396">
+                                        <h3 class="card-title">Breaking Bad</h3>
+                                    </a>
+
+                                    <time datetime="2008">2008</time>
+                                </div>
+
+                                <div class="card-meta">
+                                    <div class="badge badge-outline">HD</div>
+
+                                    <div class="duration">
+                                        <ion-icon name="time-outline" role="img" class="md hydrated"
+                                                  aria-label="time outline"></ion-icon>
+
+                                        <time datetime="PT137M">137 min</time>
+                                    </div>
+
+                                    <div class="rating">
+                                        <ion-icon name="star" role="img" class="md hydrated"
+                                                  aria-label="star"></ion-icon>
+
+                                        <data>8.9</data>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="movie-card">
+
+                                <a href="/details/tv/94954">
+                                    <figure class="card-banner">
+                                        <img src="https://image.tmdb.org/t/p/w500/rXojaQcxVUubPLSrFV8PD4xdjrs.jpg"
+                                             alt="The Northman movie poster">
+                                    </figure>
+                                </a>
+
+                                <div class="title-wrapper">
+                                    <a href="/details/tv/94954">
+                                        <h3 class="card-title">Hazbin Hotel</h3>
+                                    </a>
+
+                                    <time datetime="2024">2024</time>
+                                </div>
+
+                                <div class="card-meta">
+                                    <div class="badge badge-outline">HD</div>
+
+                                    <div class="duration">
+                                        <ion-icon name="time-outline" role="img" class="md hydrated"
+                                                  aria-label="time outline"></ion-icon>
+
+                                        <time datetime="PT137M">137 min</time>
+                                    </div>
+
+                                    <div class="rating">
+                                        <ion-icon name="star" role="img" class="md hydrated"
+                                                  aria-label="star"></ion-icon>
+
+                                        <data>8.9</data>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="movie-card">
+
+                                <a href="/details/tv/209867">
+                                    <figure class="card-banner">
+                                        <img src="https://image.tmdb.org/t/p/w500/dqZENchTd7lp5zht7BdlqM7RBhD.jpg"
+                                             alt="The Northman movie poster">
+                                    </figure>
+                                </a>
+
+                                <div class="title-wrapper">
+                                    <a href="/details/tv/209867">
+                                        <h3 class="card-title">Frieren: Beyond Journey's End</h3>
+                                    </a>
+
+                                    <time datetime="2023">2023</time>
+                                </div>
+
+                                <div class="card-meta">
+                                    <div class="badge badge-outline">HD</div>
+
+                                    <div class="duration">
+                                        <ion-icon name="time-outline" role="img" class="md hydrated"
+                                                  aria-label="time outline"></ion-icon>
+
+                                        <time datetime="PT137M">137 min</time>
+                                    </div>
+
+                                    <div class="rating">
+                                        <ion-icon name="star" role="img" class="md hydrated"
+                                                  aria-label="star"></ion-icon>
+
+                                        <data>8.8</data>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="movie-card">
+
+                                <a href="/details/tv/94605">
+                                    <figure class="card-banner">
+                                        <img src="https://image.tmdb.org/t/p/w500/fqldf2t8ztc9aiwn3k6mlX3tvRT.jpg"
+                                             alt="The Northman movie poster">
+                                    </figure>
+                                </a>
+
+                                <div class="title-wrapper">
+                                    <a href="/details/tv/94605">
+                                        <h3 class="card-title">Arcane</h3>
+                                    </a>
+
+                                    <time datetime="2021">2021</time>
+                                </div>
+
+                                <div class="card-meta">
+                                    <div class="badge badge-outline">HD</div>
+
+                                    <div class="duration">
+                                        <ion-icon name="time-outline" role="img" class="md hydrated"
+                                                  aria-label="time outline"></ion-icon>
+
+                                        <time datetime="PT137M">137 min</time>
+                                    </div>
+
+                                    <div class="rating">
+                                        <ion-icon name="star" role="img" class="md hydrated"
+                                                  aria-label="star"></ion-icon>
+
+                                        <data>8.7</data>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+
+
+                    </ul>
+
+                </div>
+            </section>
+        </article>
+    </main>
+
+
+{% endblock %}
+{% block scripts %}
+    <script>
+        document.getElementById('rateBtn').addEventListener('click', function () {
+            {% if not current_user.is_authenticated %}
+                // If user is not logged in, show login prompt
+                Swal.fire({
+                    title: 'Please Log In',
+                    text: 'You need to be logged in to add to favourites.',
+                    icon: 'warning',
+                    confirmButtonText: 'Log In',
+                    showCloseButton: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                    item = document.querySelector(".dropdown-menu"); // For class
+                        if (item){
+                            console.log("found")
+                            item.classList.add('show')
+                                            item.style.display = 'block'; // Make sure the dropdown is displayed
+                        }
+                    }
+                });
             {% else %}
-                <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 300px;">
-                    No Image
-                </div>
+                // If logged in, show rating prompt
+                Swal.fire({
+                    title: 'Rate This',
+                    input: 'number',
+                    inputAttributes: {
+                        min: 1,
+                        max: 5,
+                        step: 1
+                    },
+                    showCloseButton: true,
+                    confirmButtonText: 'Save custom Rating',
+                    preConfirm: (rating) => {
+                        // Validate input before allowing to confirm
+                        if (rating < 1 || rating > 5) {
+                            Swal.showValidationMessage('Please enter a rating between 1 and 5');
+                            return false; // Keep modal open if invalid
+                        }
+
+                        // Example async operation, e.g., a fetch request
+                        return fetch('/recommend', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({rating: rating})
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (!data.success) {
+                                    Swal.showValidationMessage('An error occurred. Please try again.');
+                                    return false; // Keep modal open if server fails
+                                }
+                                return data; // Proceed if successful
+                            })
+                            .catch(() => {
+                                Swal.showValidationMessage('Network error. Please try again.');
+                                return false; // Keep modal open if fetch fails
+                            });
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Thank You!',
+                            text: 'Your rating was submitted successfully.',
+                            icon: 'success'
+                        });
+                    }
+                });
             {% endif %}
-
-            <button class="play-btn">
-              <ion-icon name="play-circle-outline"></ion-icon>
-            </button>
-
-          </figure>
-
-          <div class="movie-detail-content">
-
-
-            <h1 class="h1 detail-title">
-              <strong>{{ item.title or item.name }}</strong>
-            </h1>
-
-            <div class="meta-wrapper">
-
-              <div class="badge-wrapper">
-
-                <div class="badge badge-outline">HD</div>
-              </div>
-
-              <div class="ganre-wrapper">
-  {% for genre in item.genres %}
-    <a href="#">{{ genre.name }}{% if not loop.last %},{% endif %}</a>
-  {% endfor %}
-
-              </div>
-
-              <div class="date-time">
-
-                <div>
-                  <ion-icon name="calendar-outline"></ion-icon>
-
-<time datetime="{{ (item.release_date or item.first_air_date).split('-')[0] if item.release_date or item.first_air_date else '' }}">
-    {{ (item.release_date or item.first_air_date).split('-')[0] if item.release_date or item.first_air_date else '' }}
-</time>
-                </div>
-
-                <div>
-                  <ion-icon name="time-outline"></ion-icon>
-                    {% if media_type == 'tv' %}
-                                      <time datetime="PT115M">{{ item.seasons | count }} seasons</time>
-{% else %}
-                  <time datetime="PT115M">{{ item.runtime }} min</time>
-                    {% endif %}
-                </div>
-                  <div class="rating">
-                    <ion-icon name="star" role="img" class="md hydrated" aria-label="star"></ion-icon>
-
-<data>{{ item.vote_average | round(1) }}</data>
-                  </div>
-
-              </div>
-
-            </div>
-
-            <p class="storyline">
-                {{ item.overview or "No description available"}}
-            </p>
-
-            <div class="details-actions">
-              <button class="share">
-                <ion-icon name="bookmark-outline"></ion-icon>
-
-                <span>Add to favourites</span>
-              </button>
-
-
-
-              <button class="btn btn-primary" onclick="window.open('https://www.themoviedb.org/{{ media_type }}/{{ item.id }}-{{ item.original_title }}')">
-                <ion-icon name="play"></ion-icon>
-
-                <span>More Info</span>
-              </button>
-              <button class="share">
-                <ion-icon name="share-social"></ion-icon>
-
-                <span>Share</span>
-              </button>
-
-            </div>
-
-
-
-          </div>
-
-        </div>
-      </section>
-
-
-
-
-
-      <!-- 
-        - #TV SERIES
-      -->
-
-<section class="tv-series">
-        <div class="container">
-
-          <p class="section-subtitle">Best TV Series</p>
-
-          <h2 class="h2 section-title">World Best TV Series</h2>
-
-          <ul class="movies-list">
-
-
-            <li>
-              <div class="movie-card">
-
-                <a href="/details/tv/1396">
-                  <figure class="card-banner">
-                    <img src="https://image.tmdb.org/t/p/w500/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg" alt="The Northman movie poster">
-                  </figure>
-                </a>
-
-                <div class="title-wrapper">
-                  <a href="/details/tv/1396">
-                    <h3 class="card-title">Breaking Bad</h3>
-                  </a>
-
-                  <time datetime="2008">2008</time>
-                </div>
-
-                <div class="card-meta">
-                  <div class="badge badge-outline">HD</div>
-
-                  <div class="duration">
-                    <ion-icon name="time-outline" role="img" class="md hydrated" aria-label="time outline"></ion-icon>
-
-                    <time datetime="PT137M">137 min</time>
-                  </div>
-
-                  <div class="rating">
-                    <ion-icon name="star" role="img" class="md hydrated" aria-label="star"></ion-icon>
-
-                    <data>8.9</data>
-                  </div>
-                </div>
-
-              </div>
-            </li>
-
-            <li>
-              <div class="movie-card">
-
-                <a href="/details/tv/94954">
-                  <figure class="card-banner">
-                    <img src="https://image.tmdb.org/t/p/w500/rXojaQcxVUubPLSrFV8PD4xdjrs.jpg" alt="The Northman movie poster">
-                  </figure>
-                </a>
-
-                <div class="title-wrapper">
-                  <a href="/details/tv/94954">
-                    <h3 class="card-title">Hazbin Hotel</h3>
-                  </a>
-
-                  <time datetime="2024">2024</time>
-                </div>
-
-                <div class="card-meta">
-                  <div class="badge badge-outline">HD</div>
-
-                  <div class="duration">
-                    <ion-icon name="time-outline" role="img" class="md hydrated" aria-label="time outline"></ion-icon>
-
-                    <time datetime="PT137M">137 min</time>
-                  </div>
-
-                  <div class="rating">
-                    <ion-icon name="star" role="img" class="md hydrated" aria-label="star"></ion-icon>
-
-                    <data>8.9</data>
-                  </div>
-                </div>
-
-              </div>
-            </li>
-
-            <li>
-              <div class="movie-card">
-
-                <a href="/details/tv/209867">
-                  <figure class="card-banner">
-                    <img src="https://image.tmdb.org/t/p/w500/dqZENchTd7lp5zht7BdlqM7RBhD.jpg" alt="The Northman movie poster">
-                  </figure>
-                </a>
-
-                <div class="title-wrapper">
-                  <a href="/details/tv/209867">
-                    <h3 class="card-title">Frieren: Beyond Journey's End</h3>
-                  </a>
-
-                  <time datetime="2023">2023</time>
-                </div>
-
-                <div class="card-meta">
-                  <div class="badge badge-outline">HD</div>
-
-                  <div class="duration">
-                    <ion-icon name="time-outline" role="img" class="md hydrated" aria-label="time outline"></ion-icon>
-
-                    <time datetime="PT137M">137 min</time>
-                  </div>
-
-                  <div class="rating">
-                    <ion-icon name="star" role="img" class="md hydrated" aria-label="star"></ion-icon>
-
-                    <data>8.862</data>
-                  </div>
-                </div>
-
-              </div>
-            </li>
-
-            <li>
-              <div class="movie-card">
-
-                <a href="/details/tv/94605">
-                  <figure class="card-banner">
-                    <img src="https://image.tmdb.org/t/p/w500/fqldf2t8ztc9aiwn3k6mlX3tvRT.jpg" alt="The Northman movie poster">
-                  </figure>
-                </a>
-
-                <div class="title-wrapper">
-                  <a href="/details/tv/94605">
-                    <h3 class="card-title">Arcane</h3>
-                  </a>
-
-                  <time datetime="2021">2021</time>
-                </div>
-
-                <div class="card-meta">
-                  <div class="badge badge-outline">HD</div>
-
-                  <div class="duration">
-                    <ion-icon name="time-outline" role="img" class="md hydrated" aria-label="time outline"></ion-icon>
-
-                    <time datetime="PT137M">137 min</time>
-                  </div>
-
-                  <div class="rating">
-                    <ion-icon name="star" role="img" class="md hydrated" aria-label="star"></ion-icon>
-
-                    <data>8.7</data>
-                  </div>
-                </div>
-
-              </div>
-            </li>
-
-
-
-          </ul>
-
-        </div>
-      </section>
-    </article>
-  </main>
-
-
+        });
+    </script>
+    <script>
+        document.getElementById('shareBtn').addEventListener('click', function () {
+            // Text to be copied
+            const textToCopy = window.location;
+            const shareText = document.getElementById('shareText');
+
+            // Copy text to clipboard
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // Change button text
+                shareText.textContent = 'Copied!';
+
+                // Revert text after 1.5 seconds
+                setTimeout(() => {
+                    shareText.textContent = 'Share';
+                }, 1500);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        });
+    </script>
 {% endblock %}

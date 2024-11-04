@@ -1,14 +1,32 @@
 # app/tmdb_client.py
+import hashlib
+import json
+
 import requests
 from flask import session
 
 
 class TMDBClient:
     BASE_URL = "https://api.themoviedb.org/3"
+    _instance = None
+
+    def __new__(cls, api_key=None):
+        if not cls._instance:
+            cls._instance = super(TMDBClient, cls).__new__(cls)
+        return cls._instance
 
     def __init__(self, api_key):
-        self.api_key = api_key
-        self.current_language = session.get('language', 'en-US')  # Default to 'en-US' if not set
+        # Ensure __init__ runs only once by checking if api_key is already set
+        if not hasattr(self, 'api_key'):
+            self.api_key = api_key
+            self.cache = {}  # Initialize an empty cache dictionary
+            print("Created new TMDBClient instance")
+
+    def _generate_cache_key(self, endpoint, params):
+        """Generate a unique cache key based on the endpoint and parameters."""
+        # Use a hash function to create a unique key for the request
+        key_string = f"{endpoint}:{json.dumps(params, sort_keys=True)}"
+        return hashlib.md5(key_string.encode()).hexdigest()
 
     def _make_request(self, endpoint, params=None):
         if params is None:
@@ -16,10 +34,26 @@ class TMDBClient:
         else:
             params = params.copy()  # Make a copy to avoid modifying the original
 
-        params['language'] = self.current_language
+        params['language'] = session.get('language', 'en-US')
         params['api_key'] = self.api_key
+
+        # Generate a cache key for the request
+        cache_key = self._generate_cache_key(endpoint, params)
+
+        # Check if the response is already cached
+        if cache_key in self.cache:
+            print("Using cached response")
+            return self.cache[cache_key]
+
+        print("created new request")
+        # Make the request if not cached
         response = requests.get(f"{self.BASE_URL}{endpoint}", params=params)
-        return response.json()
+        response_data = response.json()
+
+        # Store the response in cache
+        self.cache[cache_key] = response_data
+
+        return response_data
 
     def search(self, query, page=1):
         params = {

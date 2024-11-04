@@ -100,7 +100,6 @@ ion-icon { display: block; }
 
 input {
   font: inherit;
-  width: 100%;
   border: none;
 }
 
@@ -138,15 +137,15 @@ body.active { overflow: hidden; }
 .h1,
 .h2,
 .h3 {
-  color: var(--white);
-  line-height: 1.2;
+  color: var(--white); !important;
+  line-height: 1.2;!important;
 }
 
-.h1 { font-size: var(--fs-1); }
+.h1 { font-size: var(--fs-1); !important;}
 
-.h2 { font-size: var(--fs-2); }
+.h2 { font-size: var(--fs-2); !important;}
 
-.h3 { font-size: var(--fs-6); }
+.h3 { font-size: var(--fs-6); !important;}
 
 .section-subtitle {
   color: var(--blue-light);
@@ -1908,4 +1907,123 @@ body.active { overflow: hidden; }
     font-size: 1.1em;
     padding: 10px 20px;
     text-decoration: none;
+}
+
+/* Dropdown Menu */
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  cursor: pointer;
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  color: #0056b3;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  background-color: #fff;
+  padding: 20px;
+  width: 300px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+/* Form Styles */
+#loginForm, #registerForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.form-check-input-c {
+  margin-right: 8px;
+}
+
+.form-check-label {
+  font-size: 0.875rem;
+  color: #333;
+}
+
+/* Button Styles */
+.btn-primary-custom {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.btn-primary-c:hover {
+  background-color: #0056b3;
+}
+
+/* Link Styles */
+.small {
+  font-size: 0.875rem;
+  color: #666;
+  text-align: center;
+}
+
+.switch-link {
+  color: #007bff;
+  cursor: pointer;
+}
+
+.switch-link:hover {
+  text-decoration: underline;
+}
+
+
+/* Checkbox Alignment */
+.form-check {
+  display: flex;
+  align-items: start;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.form-check-input {
+  margin-right: 8px;
+}
+
+.form-check-label {
+  font-size: 0.875rem;
+  color: #333;
 }
